@@ -8,10 +8,10 @@ TimeDisplay::TimeDisplay(uint32_t _rate)
     rtc(i2c),
     rate(_rate)
 {
-   time.hour   = 21;
-   time.minute = 45;
-   time.second = 00;
-   rtc.writeTime(&time);
+   // time.hour   = 23;
+   // time.minute = 04;
+   // time.second = 00;
+   // rtc.writeTime(&time);
 }
 
 RTCTime * TimeDisplay::getTime()

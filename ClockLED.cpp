@@ -32,17 +32,7 @@ void ClockLED::run(uint32_t now)
 
     uint16_t subtime = now % 60;
 
-    // Serial.print(time->hour, DEC);
-    // Serial.write(':');
-    // Serial.print(time->minute, DEC);
-    // Serial.write(':');
-    // Serial.print(time->second, DEC);
-    // Serial.write('\n');
     pixels.clear();
-
-    for (i = 0; i < 2; i ++) {
-      pixels.setPixelColor((subtime - i) % 60, pixels.Color(1,1,1));
-    }
 
     tween(time->second, pixels.Color(0,50,0));
     tween(time->minute, pixels.Color(50,0,0));
