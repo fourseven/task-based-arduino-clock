@@ -5,7 +5,7 @@ AppleDarkClockFace::AppleDarkClockFace(Adafruit_NeoPixel* pixels) : ClockFace(pi
 void AppleDarkClockFace::updateFace(RTCTime* time) {
     // setPulse(millis());
     setMinuteForPixels(time->minute);
-    setHourForPixels(time->hour);
+    setHourForPixels(time->hour, time->minute);
     setSecondForPixels(time->second);
 }
 
@@ -24,9 +24,11 @@ void AppleDarkClockFace::setMinuteForPixels(uint8_t minute) {
     }
 }
 
-void AppleDarkClockFace::setHourForPixels(uint8_t hour) {
+void AppleDarkClockFace::setHourForPixels(uint8_t hour, uint8_t minute) {
     int8_t convertedHour = (hour % 12) * 5;
-    for (uint8_t i = 0; i < convertedHour; i ++) {
+    int8_t adjustedMinute = floor(minute / 12);
+    convertedHour = convertedHour + adjustedMinute;
+    for (uint8_t i = 0; i <= convertedHour; i ++) {
         tween(i, pixels->Color(0,0,40));
     }
 }

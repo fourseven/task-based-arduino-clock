@@ -13,7 +13,7 @@ public:
 private:
     void setSecondForPixels(uint8_t);
     void setMinuteForPixels(uint8_t);
-    void setHourForPixels(uint8_t);
+    void setHourForPixels(uint8_t, uint8_t);
     void setPulse(uint32_t);
 };
 

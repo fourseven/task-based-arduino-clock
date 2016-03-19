@@ -18,7 +18,7 @@ Clock::Clock(TimeReader* _timeReader, uint32_t _rate)
   rate(_rate),
   pixels(new Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800))
 {
-    clockFace = new AppleDarkClockFace(pixels);
+    clockFace = new AppleClockFace(pixels);
     pixels->begin();
 }
 
@@ -32,6 +32,7 @@ void Clock::run(uint32_t now) {
 
     reverse();
 
+
     pixels->show(); // This sends the updated pixel color to the hardware.
 
     // Run again in the required number of milliseconds.
@@ -39,11 +40,12 @@ void Clock::run(uint32_t now) {
 }
 
 void Clock::reverse() {
-    uint32_t tempArrayOfColors[NUMPIXELS];
-    for (uint8_t i = 0; i < NUMPIXELS; i++) {
-      tempArrayOfColors[i] = pixels->getPixelColor(NUMPIXELS - i);
-    }
-    for (uint8_t i = 0; i < NUMPIXELS; i++) {
-      pixels->setPixelColor(i, tempArrayOfColors[i]);
+    uint32_t tempColor;
+    for (uint8_t i = 0; i < NUMPIXELS / 2; i++) {
+      uint8_t topNumber = NUMPIXELS - i - 1;
+      uint8_t bottomNumber = i;
+      tempColor = pixels->getPixelColor(topNumber);
+      pixels->setPixelColor(topNumber, pixels->getPixelColor(bottomNumber));
+      pixels->setPixelColor(bottomNumber, tempColor);
     }
 }

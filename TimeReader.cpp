@@ -8,10 +8,10 @@ TimeReader::TimeReader(uint32_t _rate)
     rtc(i2c),
     rate(_rate)
 {
-   // time.hour   = 17;
-   // time.minute = 48;
-   // time.second = 00;
-   // rtc.writeTime(&time);
+   time.hour   = 19;
+   time.minute = 03;
+   time.second = 30;
+   rtc.writeTime(&time);
 }
 
 RTCTime * TimeReader::getTime()
