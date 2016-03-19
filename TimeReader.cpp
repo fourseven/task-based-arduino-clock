@@ -1,8 +1,8 @@
-#include "TimeDisplay.h"
+#include "TimeReader.h"
 #include <Arduino.h>
 #include <Task.h>
 
-TimeDisplay::TimeDisplay(uint32_t _rate)
+TimeReader::TimeReader(uint32_t _rate)
 : TimedTask(millis()),
     i2c(A4, A5),
     rtc(i2c),
@@ -14,12 +14,12 @@ TimeDisplay::TimeDisplay(uint32_t _rate)
    // rtc.writeTime(&time);
 }
 
-RTCTime * TimeDisplay::getTime()
+RTCTime * TimeReader::getTime()
 {
   return &time;
 }
 
-void TimeDisplay::run(uint32_t now)
+void TimeReader::run(uint32_t now)
 {
     rtc.readTime(&time);
 

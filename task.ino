@@ -5,7 +5,7 @@
 #include <RTC.h>
 #include <DS3232RTC.h>
 
-#include "TimeDisplay.h"
+#include "TimeReader.h"
 #include "ClockLED.h"
 
 
@@ -18,12 +18,12 @@ void setup()
 void loop()
 {
     // Create the tasks.
-    TimeDisplay timeDisplay(100);
-    ClockLED    clockLED(&timeDisplay, 2);
+    TimeReader timeReader(100);
+    ClockLED    clockLED(&timeReader, 2);
 
     // Initialise the task list and scheduler.
 
-    Task *tasks[] = {  &timeDisplay, &clockLED };
+    Task *tasks[] = {  &timeReader, &clockLED };
     TaskScheduler sched(tasks, NUM_TASKS(tasks));
 
     Serial.print("SUP\n");

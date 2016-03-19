@@ -9,9 +9,9 @@
 #define PIN        9
 
 
-ClockLED::ClockLED(TimeDisplay* _timeDisplay, uint32_t _rate)
+ClockLED::ClockLED(TimeReader* _timeReader, uint32_t _rate)
 : TimedTask(millis()),
-  timeDisplay(_timeDisplay),
+  timeReader(_timeReader),
   rate(_rate),
   pixels(Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800))
 {
@@ -23,31 +23,68 @@ void ClockLED::tween(uint16_t idx, uint32_t color) {
     pixels.setPixelColor(idx, color | temp_color);
 }
 
-void ClockLED::run(uint32_t now)
-{
+void ClockLED::run(uint32_t now) {
 
-    RTCTime *time = timeDisplay->getTime();
-    uint8_t i;
-    uint16_t idx;
-
-    uint16_t subtime = now % 60;
+    RTCTime *time = timeReader->getTime();
 
     pixels.clear();
 
-    tween(time->second, pixels.Color(0,50,0));
-    tween(time->minute, pixels.Color(50,0,0));
-    for (i = 1; i < 2; i ++) {
-      tween((time->minute - i) % 60, pixels.Color(10,0,0));
-      tween((time->minute + i) % 60, pixels.Color(10,0,0));
-    }
-    idx = (time->hour % 12) *5 % 60;
-    tween(idx, pixels.Color(0,0,40));
-    for (i = 1; i < 3; i ++) {
-      tween((idx - i) % 60, pixels.Color(0,0,10));
-      tween((idx + i) % 60, pixels.Color(0,0,10));
-    }
+    // setMillisForSecond(time->second, now);
+
+    setSecondForPixels(time->second, &pixels);
+    setMinuteForPixels(time->minute, &pixels);
+    setHourForPixels(time->hour, &pixels);
+
+    // setPulse(now, &pixels);
+
     pixels.show(); // This sends the updated pixel color to the hardware.
 
     // Run again in the required number of milliseconds.
     incRunTime(rate);
+}
+
+// Takes what could be a negative number and returns the index on the neopixels array.
+uint8_t ClockLED::pointFor(int8_t index) {
+    return (index + NUMPIXELS) % NUMPIXELS;
+}
+
+void ClockLED::setSecondForPixels(uint8_t second, Adafruit_NeoPixel* pixels) {
+    tween(second, pixels->Color(0,50,0));
+}
+
+void ClockLED::setMinuteForPixels(uint8_t minute, Adafruit_NeoPixel* pixels) {
+    tween(minute, pixels->Color(50,0,0));
+    for (uint8_t i = 1; i < 2; i ++) {
+        tween(pointFor(minute - i), pixels->Color(10,0,0));
+        tween(pointFor(minute + i), pixels->Color(10,0,0));
+    }
+}
+
+void ClockLED::setHourForPixels(uint8_t hour, Adafruit_NeoPixel* pixels) {
+    int8_t idx = (hour % 12) * 5;
+    tween(idx, pixels->Color(0,0,40));
+    for (uint8_t i = 1; i < 3; i ++) {
+        tween(pointFor(idx - i), pixels->Color(0,0,10));
+        tween(pointFor(idx + i), pixels->Color(0,0,10));
+    }
+}
+
+void ClockLED::setPulse(uint32_t now, Adafruit_NeoPixel* pixels) {
+    // uint16_t nowMillis = now % 1000;
+    uint8_t output = 3;
+    // if (nowMillis < millisOnSecondChange) {
+    //     output = 0;
+    // } else {
+    //     output = (nowMillis - millisOnSecondChange) / 10;
+    // }
+    for (uint8_t i = 0; i < pixels->numPixels(); i++) {
+        tween(i, pixels->Color(output,output,output));
+    }
+}
+
+void ClockLED::setMillisForSecond(uint8_t second, uint32_t now) {
+    // if (second > lastSecond) {
+    //     millisOnSecondChange = now % 1000;
+    //     lastSecond = second;
+    // }
 }

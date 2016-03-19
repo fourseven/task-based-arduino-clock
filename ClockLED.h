@@ -2,7 +2,7 @@
 #define ClockLED_h
 
 #include <Task.h>
-#include "TimeDisplay.h"
+#include "TimeReader.h"
 #include "Adafruit_NeoPixel.h"
 
 // Timed task to blink a LED.
@@ -10,13 +10,19 @@ class ClockLED : public TimedTask
 {
 public:
     // Create a new ClockLED for the specified pin and rate.
-    ClockLED(TimeDisplay* _timeDisplay, uint32_t _rate);
-    virtual void run(uint32_t now);
-    void tween(uint16_t idx, uint32_t color);
+    ClockLED(TimeReader*, uint32_t);
+    virtual void run(uint32_t);
+    void tween(uint16_t, uint32_t);
 private:
-    uint8_t pin;
+    void setSecondForPixels(uint8_t, Adafruit_NeoPixel*);
+    void setMinuteForPixels(uint8_t, Adafruit_NeoPixel*);
+    void setHourForPixels(uint8_t, Adafruit_NeoPixel*);
+    void setPulse(uint32_t, Adafruit_NeoPixel*);
+    void setMillisForSecond(uint8_t, uint32_t);
+    uint8_t pointFor(int8_t);
+    uint8_t lastSecond;
     Adafruit_NeoPixel pixels;
-    TimeDisplay* timeDisplay;
+    TimeReader* timeReader;
     uint32_t rate;    // Blink rate.
 };
 
