@@ -2,7 +2,7 @@
 #define StandardClockFace_h
 
 #include "ClockFace.h"
-#include "Adafruit_NeoPixel.h"
+#include <Adafruit_NeoPixel.h>
 
 // Timed task to blink a LED.
 class StandardClockFace : public ClockFace {
@@ -14,9 +14,7 @@ private:
     void setSecondForPixels(uint8_t);
     void setMinuteForPixels(uint8_t);
     void setHourForPixels(uint8_t);
-    // void setPulse(uint32_t);
+    void setPulse(uint32_t);
 };
 
 #endif
-
-

@@ -1,14 +1,14 @@
-#ifndef AppleClockFace_h
-#define AppleClockFace_h
+#ifndef AppleDarkClockFace_h
+#define AppleDarkClockFace_h
 
 #include <Adafruit_NeoPixel.h>
 #include "ClockFace.h"
 
 // Timed task to blink a LED.
-class AppleClockFace : public ClockFace {
+class AppleDarkClockFace : public ClockFace {
 public:
     // Create a new Clock for the specified pin and rate.
-    AppleClockFace(Adafruit_NeoPixel*);
+    AppleDarkClockFace(Adafruit_NeoPixel*);
     void updateFace(RTCTime*);
 private:
     void setSecondForPixels(uint8_t);

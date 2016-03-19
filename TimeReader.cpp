@@ -8,8 +8,8 @@ TimeReader::TimeReader(uint32_t _rate)
     rtc(i2c),
     rate(_rate)
 {
-   // time.hour   = 23;
-   // time.minute = 04;
+   // time.hour   = 17;
+   // time.minute = 48;
    // time.second = 00;
    // rtc.writeTime(&time);
 }

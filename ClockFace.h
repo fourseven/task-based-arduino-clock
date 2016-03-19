@@ -1,7 +1,7 @@
 #ifndef ClockFace_h
 #define ClockFace_h
 
-#include "Adafruit_NeoPixel.h"
+#include <Adafruit_NeoPixel.h>
 #include "RTC.h"
 
 // Timed task to blink a LED.

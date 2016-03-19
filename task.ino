@@ -8,7 +8,6 @@
 #include "TimeReader.h"
 #include "Clock.h"
 
-
 void setup()
 {
     Serial.begin(9600);
@@ -19,7 +18,7 @@ void loop()
 {
     // Create the tasks.
     TimeReader timeReader(100);
-    Clock      clock(&timeReader, 2);
+    Clock      clock(&timeReader, 16);
 
     // Initialise the task list and scheduler.
 

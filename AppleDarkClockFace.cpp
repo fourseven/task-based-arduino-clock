@@ -1,34 +1,37 @@
-#include "AppleClockFace.h"
+#include "AppleDarkClockFace.h"
 
-AppleClockFace::AppleClockFace(Adafruit_NeoPixel* pixels) : ClockFace(pixels) {}
+AppleDarkClockFace::AppleDarkClockFace(Adafruit_NeoPixel* pixels) : ClockFace(pixels) {}
 
-void AppleClockFace::updateFace(RTCTime* time) {
+void AppleDarkClockFace::updateFace(RTCTime* time) {
     // setPulse(millis());
     setMinuteForPixels(time->minute);
     setHourForPixels(time->hour);
     setSecondForPixels(time->second);
 }
 
-void AppleClockFace::setSecondForPixels(uint8_t second) {
-    for (uint8_t i = 0; i < second; i ++) {
-        tween(i, pixels->Color(0,50,0));
+void AppleDarkClockFace::setSecondForPixels(uint8_t second) {
+    uint32_t temp_color = pixels->getPixelColor(second);
+    if (temp_color > 0) {
+      pixels->setPixelColor(second, pixels->Color(0,0,0));
+    } else {
+      pixels->setPixelColor(second, pixels->Color(15,15,15));
     }
 }
 
-void AppleClockFace::setMinuteForPixels(uint8_t minute) {
+void AppleDarkClockFace::setMinuteForPixels(uint8_t minute) {
     for (uint8_t i = 0; i < minute; i ++) {
         tween(i, pixels->Color(50,0,0));
     }
 }
 
-void AppleClockFace::setHourForPixels(uint8_t hour) {
+void AppleDarkClockFace::setHourForPixels(uint8_t hour) {
     int8_t convertedHour = (hour % 12) * 5;
     for (uint8_t i = 0; i < convertedHour; i ++) {
         tween(i, pixels->Color(0,0,40));
     }
 }
 
-void AppleClockFace::setPulse(uint32_t now) {
+void AppleDarkClockFace::setPulse(uint32_t now) {
     uint16_t millisecond = now % 1000;
     static uint8_t output = 0;
     uint8_t actualOutput = 0;

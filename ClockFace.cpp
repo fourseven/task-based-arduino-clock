@@ -1,11 +1,5 @@
 #include "ClockFace.h"
 
-#include "Adafruit_NeoPixel.h"
-
-#define NUMPIXELS 60
-#define PIN        9
-
-
 ClockFace::ClockFace(Adafruit_NeoPixel* pixels) : pixels(pixels) {
 
 }
@@ -19,4 +13,3 @@ void ClockFace::tween(uint16_t idx, uint32_t color) {
 uint8_t ClockFace::pointFor(int8_t index) {
     return (index + pixels->numPixels()) % pixels->numPixels();
 }
-

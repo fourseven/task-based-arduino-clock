@@ -15,8 +15,9 @@ public:
     virtual void run(uint32_t);
     void tween(uint16_t, uint32_t);
 private:
+    void reverse();
     ClockFace* clockFace;
-    Adafruit_NeoPixel pixels;
+    Adafruit_NeoPixel* pixels;
     TimeReader* timeReader;
     uint32_t rate;    // Blink rate.
 };

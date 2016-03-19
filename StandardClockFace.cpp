@@ -6,6 +6,7 @@ void StandardClockFace::updateFace(RTCTime* time) {
     setSecondForPixels(time->second);
     setMinuteForPixels(time->minute);
     setHourForPixels(time->hour);
+    // setPulse(millis());
 }
 
 void StandardClockFace::setSecondForPixels(uint8_t second) {
