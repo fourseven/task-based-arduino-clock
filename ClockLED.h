@@ -20,7 +20,6 @@ private:
     void setPulse(uint32_t, Adafruit_NeoPixel*);
     void setMillisForSecond(uint8_t, uint32_t);
     uint8_t pointFor(int8_t);
-    uint8_t lastSecond;
     Adafruit_NeoPixel pixels;
     TimeReader* timeReader;
     uint32_t rate;    // Blink rate.

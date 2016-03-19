@@ -70,15 +70,20 @@ void ClockLED::setHourForPixels(uint8_t hour, Adafruit_NeoPixel* pixels) {
 }
 
 void ClockLED::setPulse(uint32_t now, Adafruit_NeoPixel* pixels) {
-    // uint16_t nowMillis = now % 1000;
-    uint8_t output = 3;
-    // if (nowMillis < millisOnSecondChange) {
-    //     output = 0;
-    // } else {
-    //     output = (nowMillis - millisOnSecondChange) / 10;
-    // }
+    uint16_t millisecond = now % 1000;
+    static uint8_t output = 0;
+    uint8_t actualOutput = 0;
+    if (millisecond < 500) {
+      output += 1;
+    }
+    else {
+      output -= 1;
+    }
+    Serial.println(millisecond, DEC);
+    actualOutput = output >> 4;
+
     for (uint8_t i = 0; i < pixels->numPixels(); i++) {
-        tween(i, pixels->Color(output,output,output));
+        tween(i, pixels->Color(actualOutput,actualOutput,actualOutput));
     }
 }
 
